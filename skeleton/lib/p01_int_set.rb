@@ -11,45 +11,60 @@ class MaxIntSet
   end
 
   def insert(num)
-    raise "Out of bounds" if num > @max || num < 0
-    @store[num] = true
+    is_valid?(num)
+    validate!(num)
   end
 
   def remove(num)
+    is_valid?(num)
+    @store[num] = false
   end
 
   def include?(num)
-    
+    @store[num]
   end
 
   private
 
   def is_valid?(num)
+    raise "Out of bounds" if num > @max || num < 0
   end
 
   def validate!(num)
+    @store[num] = true
   end
 end
 
 
 class IntSet
   def initialize(num_buckets = 20)
+    @num_buckets = num_buckets
     @store = Array.new(num_buckets) { Array.new }
+    # self.each do |ele|
+    #   i = ele % num_buckets
+    #   @store[i] << true
+    # end
   end
 
   def insert(num)
+    @store[num] << num
   end
 
   def remove(num)
+
   end
 
   def include?(num)
+    @store[num] == true
   end
 
   private
 
   def [](num)
     # optional but useful; return the bucket corresponding to `num`
+    i = num % num_buckets
+    @store[i]
+    return i
   end
 
   def num_buckets
