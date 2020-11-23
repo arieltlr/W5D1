@@ -1,14 +1,25 @@
 class MaxIntSet
+  #{ 0, 2, 3 }
+  attr_accessor :store
+
   def initialize(max)
+    @store = [false] * max
+    @max = max
+    (0..max).each do |i|
+      @store[i] = true if self.include?(i)
+    end
   end
 
   def insert(num)
+    raise "Out of bounds" if num > @max || num < 0
+    @store[num] = true
   end
 
   def remove(num)
   end
 
   def include?(num)
+    
   end
 
   private
