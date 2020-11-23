@@ -81,9 +81,9 @@ class ResizingIntSet
   def insert(num)
     if !self.include?(num)
       self[num].push(num) 
-      self.count += 1
+      @count += 1
     end
-    if self.count > @num_buckets
+    if @count > @num_buckets
       resize!
     end
   end
@@ -91,7 +91,7 @@ class ResizingIntSet
   def remove(num)
     if self.include?(num)
       self[num].pop(num) 
-      self.count -= 1
+      @count -= 1
     end
   end
 
@@ -101,9 +101,9 @@ class ResizingIntSet
 
   private
 
-  def count
-    
-  end
+  # def count(num)
+  #   overall_count = 0
+  # end
 
   def [](num)
     # optional but useful; return the bucket corresponding to `num`
@@ -116,6 +116,10 @@ class ResizingIntSet
   end
 
   def resize!
+    old_nums = @store.flatten
    initialize(num_buckets * 2)
+   old_nums.each do |int|
+      insert(int)
+   end
   end
 end
