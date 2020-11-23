@@ -1,6 +1,5 @@
 class HashSet
-  attr_reader :count
-
+  attr_accessor :count, :store
   def initialize(num_buckets = 8)
     @store = Array.new(num_buckets) { Array.new }
     @count = 0
@@ -10,6 +9,8 @@ class HashSet
   end
 
   def include?(key)
+    
+
   end
 
   def remove(key)
@@ -19,6 +20,8 @@ class HashSet
 
   def [](num)
     # optional but useful; return the bucket corresponding to `num`
+    i = num % num_buckets
+    self.store[i]
   end
 
   def num_buckets
