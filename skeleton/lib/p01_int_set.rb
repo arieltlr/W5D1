@@ -40,32 +40,29 @@ class IntSet
   def initialize(num_buckets = 20)
     @num_buckets = num_buckets
     @store = Array.new(num_buckets) { Array.new }
-    # self.each do |ele|
-    #   i = ele % num_buckets
-    #   @store[i] << true
-    # end
   end
 
   def insert(num)
-    @store[num] << num
+    self[num].push(num)
   end
 
   def remove(num)
+    self[num].pop(num)
 
   end
 
   def include?(num)
-    @store[num] == true
+    self[num].include?(num)
   end
 
   private
 
   def [](num)
     # optional but useful; return the bucket corresponding to `num`
-    i = num % num_buckets
+    i = num % @num_buckets
     @store[i]
-    return i
   end
+
 
   def num_buckets
     @store.length
@@ -77,22 +74,41 @@ class ResizingIntSet
 
   def initialize(num_buckets = 20)
     @store = Array.new(num_buckets) { Array.new }
+    @num_buckets = num_buckets
     @count = 0
   end
 
   def insert(num)
+    if !self.include?(num)
+      self[num].push(num) 
+      self.count += 1
+    end
+    if self.count > @num_buckets
+      resize!
+    end
   end
 
   def remove(num)
+    if self.include?(num)
+      self[num].pop(num) 
+      self.count -= 1
+    end
   end
 
   def include?(num)
+    self[num].include?(num)
   end
 
   private
 
+  def count
+    
+  end
+
   def [](num)
     # optional but useful; return the bucket corresponding to `num`
+    i = num % @num_buckets
+    @store[i]
   end
 
   def num_buckets
@@ -100,5 +116,6 @@ class ResizingIntSet
   end
 
   def resize!
+   initialize(num_buckets * 2)
   end
 end
